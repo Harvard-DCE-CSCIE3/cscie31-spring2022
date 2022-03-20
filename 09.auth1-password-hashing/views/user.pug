@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  h4 Logged-In User Profile
+  p This path on /users/ is only available to a logged-in user, as determined by the rules set in <code>routes/auth.js</code> 
+  ul
+    li Email:  #{user.email}
+    li Created At: #{user.createdAt}
+  p 
+    a(href='/users/logout') Logout
+       

@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h4 App Home Page
+
+  if user
+    p Registered and logged in as 
+     ul
+       li Email: #{user.email}
+       li Created: #{user.createdAt}
+    a(href='/users/logout') Log Out
+  p 
+    a(href='/users/') User page (only available if logged-in, otherwise will redirect back to '/')
+  p
+    a(href='/users/register') Register
