@@ -1,4 +1,4 @@
-// start by navigating to the /www folder, and type 'node ../06s_simplest-http-file-server'
+// start by navigating to the /www folder, and type 'node ../06_simplest-http-file-server'
 // access the app from you browser at http://localhost:8080/photos/index.html (or use any arbitrary path)
 
 const http = require('http');

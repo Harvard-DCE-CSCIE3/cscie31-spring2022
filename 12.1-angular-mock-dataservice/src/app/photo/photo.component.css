@@ -1,0 +1,11 @@
+
+.card-body {
+    border: 1px solid black;
+    max-width: 400px;
+    float: left;
+    padding: 10px;
+    height: 320px;
+}
+.card-title {
+    font-weight: bold;
+}
