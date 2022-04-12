@@ -1,0 +1,12 @@
+extends layout
+
+block content
+  h4 Logged-In User Profile (this is an Express/HTML page)
+  ul
+    li Email:  #{user.email}
+    li Created At: #{user.createdAt}
+  p
+    a(href='/') View the Angular version of this page
+  p 
+    a(href='/users/logout') Logout
+       
