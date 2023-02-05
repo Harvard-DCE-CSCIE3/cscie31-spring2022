@@ -14,8 +14,7 @@
         console.log('\n\n***************************\nlist results:');
         console.log(list);
         testId = list[0]._id;
-      })
-      .then(()=>{
+
         // create
         let input = document.querySelector('input[type="file"]')
         let data = new FormData()
@@ -28,52 +27,34 @@
             savedPhoto = photo;  // keep a handle to the created photo object
             console.log('\n\n***************************\ncreate results:');
             console.log(photo);
-            return photo;
-          })
-          .then((photo)=>{
+
             // find
-            return callAPI('GET','/api/photos/'+photo._id, null, null)
-          .then((photo)=>{
-            // output the result of the Promise returned by response.json()
-            console.log('\n\n***************************\nfind results:');
-            console.log(photo);
-            return photo;
-          })
-          .then((photo)=>{
-            // update description
-            photo.description += ' appended by the AJAX API ';
-            return callAPI('PUT','/api/photos/'+photo._id, null, photo)
-          .then((photo)=>{
-            // output the result of the Promise returned by response.json()
-            console.log('\n\n***************************\nupdate results:');
-            console.log(photo);
-            return photo;
-          })
-          .then((photo)=>{
-            // now find again to confirm that the dedscription update was changed
-            return callAPI('GET','/api/photos/'+photo._id, null, null)
-          })
-          .then((photo)=>{
-            // output the result of the Promise returned by response.json()
-            console.log('\n\n***************************\nfind results (should contain updated description field):');
-            console.log(photo);
-            return photo;
-          })
-          .then((photo)=>{
-            //delete
-            callAPI('DELETE', '/api/photos/'+photo._id, null, null)
-                .then((result)=>{
-                console.log('\n\n***************************\ndelete result:');
-                console.log(result);
-                })
+            callAPI('GET','/api/photos/'+photoId, null, null)
+              .then((photo)=>{
+                console.log('\n\n***************************\nfind results:');
+                console.log(photo);
+
+                // update
+                testJSON.description += ' appended by the AJAX API ';
+                callAPI('PUT','/api/photos/'+photoId, null, savedPhoto)
+                  .then((photo)=>{
+                    console.log('\n\n***************************\nupdate results:');
+                    console.log(photo);
+
+                    //delete
+                    callAPI('DELETE', '/api/photos/'+photoId, null, null)
+                     .then((result)=>{
+                       console.log('\n\n***************************\ndelete result:');
+                       console.log(result);
+                     })
+                });
             });
-        })
-     })
+        });
     })
     .catch((err)=>{
       console.error(err);
     });
-
+}
 
 
   async function callAPI(method, uri, params, body){
@@ -97,22 +78,18 @@
         ...(method=='POST' ? {body: body} : {}),
         ...(method=='PUT' ?  {headers: jsonMimeType, body:JSON.stringify(body)} : {})
       });
-      // response.json() parses the textual JSON data to a JSON object. 
-      // Returns a Promise that resolves with the value of the JSON object 
-      //  which you can pick up as the argument passed to the .then()
-      return response.json(); 
+      return response.json(); // parses response to JSON
     }catch(err){
       console.error(err);
       return "{'status':'error'}";
     }
   }
-      }
 
   // Calls our test function when we click the button
   //  afer validating that there's a file selected.
   document.querySelector('#testme').addEventListener("click", ()=>{
     let input = document.querySelector('input[type="file"]')
-    if (input.value){ 
+    if (input.value){
       testAPIs();
     }else{
       alert("please select an image file first");

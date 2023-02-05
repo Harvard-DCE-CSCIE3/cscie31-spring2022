@@ -86,15 +86,15 @@ router.put('/:photoid', (req, res, next)=>{
 //  This example wth file upload - not a pure JSON implementation
 //  since the file comes in via POSTed FormData
 router.post('/', upload.single('image'), async (req, res, next)=>{
-  const path = "/static/img/" + req.file.filename;
+  const path = "/static/img/" + (req.file ? req.file.filename : '');
 
   const photo  = {
-      originalname: req.file.originalname,
-      mimetype: req.file.mimetype,
+      originalname: (req.file ? req.file.originalname : 'N/A'),
+      mimetype: (req.file ? req.file.mimetype : "N/A"),
       imageurl: path,
       title: req.body.title,
-      filename: req.file.filename,
-      size: req.file.size / 1024 | 0,
+      filename: (req.file ? req.file.filename : 'N/A'),
+      size: (req.file ? req.file.size / 1024 | 0 : 'N/A'),
       description: req.body.description
       }
 
